@@ -103,8 +103,9 @@ Progress: [####---] 4/7
 Once the user confirms, generate the RFP document in the following format
 and save it:
 
-**Output path:** `docs/design/<tool-name>-rfp.md` (in the target project
-directory, or current working directory if no project exists yet)
+**Output path:** `docs/ja/<tool-name>-rfp.ja.md` (Japanese, primary)
+and `docs/en/<tool-name>-rfp.md` (English translation).
+If the project directory does not exist yet, use the current working directory.
 
 **Document format:**
 
