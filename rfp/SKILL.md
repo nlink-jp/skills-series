@@ -105,7 +105,11 @@ and save it:
 
 **Output path:** `docs/ja/<tool-name>-rfp.ja.md` (Japanese, primary)
 and `docs/en/<tool-name>-rfp.md` (English translation).
-If the project directory does not exist yet, use the current working directory.
+If the project directory does not exist yet, create it under `_wip/`:
+`_wip/<tool-name>/docs/ja/<tool-name>-rfp.ja.md` and
+`_wip/<tool-name>/docs/en/<tool-name>-rfp.md`.
+New projects must always start in `_wip/`, never directly inside an umbrella
+series directory (see CONVENTIONS.md Phase 2).
 
 **Document format:**
 
@@ -172,8 +176,10 @@ and alternatives considered during the Q&A process>
 ### Step 5: Next Steps
 After saving the document, suggest next steps:
 1. Review the RFP with stakeholders
-2. Proceed to Phase 2 (Scaffolding) when approved
+2. Proceed to Phase 2 (Scaffolding) when approved — scaffold in `_wip/<tool-name>/`
 3. Mention that scaffolding follows the CONVENTIONS.md templates
+4. Remind: when ready for integration, push to remote then add as submodule
+   to the umbrella series (see CONVENTIONS.md `_wip/` workflow)
 
 ## Behavior Guidelines
 
