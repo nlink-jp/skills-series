@@ -1,7 +1,7 @@
 DEST ?= $(HOME)/.claude/skills
 SKILLS := $(shell find . -mindepth 2 -maxdepth 2 -name 'SKILL.md' -exec dirname {} \; | xargs -I{} basename {})
 
-.PHONY: install uninstall list
+.PHONY: install uninstall list check test
 
 install:
 	@for skill in $(SKILLS); do \
@@ -20,3 +20,8 @@ list:
 	@for skill in $(SKILLS); do \
 		echo "$$skill"; \
 	done
+
+check:
+	@./tests/validate-skills.sh
+
+test: check
