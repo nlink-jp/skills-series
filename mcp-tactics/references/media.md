@@ -50,6 +50,12 @@ One real tool: `master`, over a page manifest pairing an image with its audio.
 - **Each page lasts exactly as long as its audio**, so A/V sync is exact by
   construction — do not try to compute durations yourself
 - `chapters` defaults on (per-page chapter markers)
+- A page whose manifest `transition` is `"fade"` dips to the canvas background
+  at that boundary. The fade happens **inside each page's own duration**, so the
+  timeline never shifts — but narration keeps playing while the image dims, so
+  leave trailing silence in the audio when it matters. `fade_seconds` sets the
+  length (default 0.5); `0` makes every boundary a cut. There is no cross-page
+  dissolve, by design
 - `captions` (burned-in) and `soft_captions` (a toggleable `mov_text` track)
   both default **off** and are independent; burned-in pixels are the right
   choice when the video will be viewed where subtitle tracks are ignored
