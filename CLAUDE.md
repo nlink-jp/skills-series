@@ -18,7 +18,11 @@ with organization-specific workflows.
 skills-series/
 ├── rfp/               RFP facilitation skill
 │   └── SKILL.md
-├── Makefile           install / uninstall / list
+├── mcp-tactics/       MCP server selection tactics (ADR-003)
+│   ├── SKILL.md       Router: decision tables + chains
+│   └── references/    Per-domain playbooks
+├── tests/             validate-skills.sh (structural checks)
+├── Makefile           install / uninstall / list / check
 ├── README.md
 ├── README.ja.md
 ├── CHANGELOG.md
@@ -30,6 +34,7 @@ skills-series/
 ## Build conventions
 
 - No compilation step — skills are Markdown files.
+- `make check` (alias `make test`) validates skill structure — run it before committing.
 - `make install` copies skills to `~/.claude/skills/` (or custom `DEST`).
 - `make uninstall` removes installed skills.
 - `dist/` convention does not apply to this series.
