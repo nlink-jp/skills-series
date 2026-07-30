@@ -1,60 +1,40 @@
 # skills-series
 
-Claude Code Skills for [nlink-jp](https://github.com/nlink-jp) development process automation.
+Claude Code Skills for [nlink-jp](https://github.com/nlink-jp) development
+process automation. This is an umbrella repository: each skill lives in its
+own repository and is included here as a submodule
+([ADR-004](https://github.com/nlink-jp/.github/blob/main/adr/004-skills-series-umbrella.md)).
 
-## Features
-
-- **rfp** — Interactive RFP facilitation for new project planning (based on [CONVENTIONS.md](https://github.com/nlink-jp/.github/blob/main/CONVENTIONS.md) Phase 1)
-- **mcp-tactics** — Which of nlink-jp's own MCP servers to reach for, and in what order ([ADR-003](https://github.com/nlink-jp/.github/blob/main/adr/003-mcp-tactics-skill.md))
-
-## Installation
-
-```bash
-git clone https://github.com/nlink-jp/skills-series.git
-cd skills-series
-make install
-```
-
-This copies all skills to `~/.claude/skills/`. To install to a specific project:
-
-```bash
-make install DEST=/path/to/project/.claude/skills
-```
-
-## Uninstall
-
-```bash
-make uninstall
-```
-
-## Usage
-
-After installation, invoke skills in Claude Code with the `/` prefix:
-
-```
-/rfp
-/rfp my-new-tool
-```
-
-`mcp-tactics` is a reference skill: Claude loads it on its own when a task
-involves one of our MCP servers, and `/mcp-tactics` shows it on demand.
-
-## Available Skills
+## Skills
 
 | Skill | Command | Description |
 |-------|---------|-------------|
-| rfp | `/rfp [tool-name]` | Facilitates RFP process for new nlink-jp projects. Collects requirements through Q&A, validates against CONVENTIONS.md planning phase, and outputs a structured RFP document. |
-| mcp-tactics | `/mcp-tactics` | Cross-cutting tactics book for the organization's 17 MCP servers and 2 proxies — decision tables from input artifact to route, cross-server chains, quota and prerequisite facts, and an offline-before-third-party-before-target-contact escalation doctrine. Selection and ordering only; each server's `get_usage` remains authoritative for parameters. |
+| [rfp](https://github.com/nlink-jp/rfp) | `/rfp [tool-name]` | Facilitates the RFP process for new nlink-jp projects. Collects requirements through Q&A, validates against CONVENTIONS.md planning phase, and outputs a structured RFP document. |
+| [mcp-tactics](https://github.com/nlink-jp/mcp-tactics) | `/mcp-tactics` | Cross-cutting tactics book for the organization's MCP servers and proxies — decision tables from input artifact to route, cross-server chains, and an offline-before-third-party-before-target-contact escalation doctrine (ADR-003). |
 
-## Validation
+## Installation
+
+Each skill releases a zip whose root is the skill folder. Download it from
+the skill's own Releases page, then either:
 
 ```bash
-make check
+unzip <skill>-vX.Y.Z.zip -d ~/.claude/skills/
 ```
 
-Checks every skill's frontmatter (present, `name` matching the directory that
-provides the slash command) and that every relative link inside a skill
-resolves. Run it after editing any `SKILL.md` or reference file.
+or upload the zip as-is to claude.ai / Claude Desktop under
+**Settings → Skills**.
+
+To install from source instead, clone the skill's repository (or this
+umbrella with `--recurse-submodules`) and run `make install` inside the
+skill repository.
+
+## Conventions
+
+All skills follow the shared organization rules in
+[CONVENTIONS.md](https://github.com/nlink-jp/.github/blob/main/CONVENTIONS.md):
+one repository per skill, skill content in a `<skill-name>/` subdirectory,
+structural validation via `make check`, and GitHub Release zips as the
+distribution channel.
 
 ## Documentation
 

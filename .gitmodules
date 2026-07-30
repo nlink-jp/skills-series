@@ -1,0 +1,6 @@
+[submodule "rfp"]
+	path = rfp
+	url = https://github.com/nlink-jp/rfp.git
+[submodule "mcp-tactics"]
+	path = mcp-tactics
+	url = https://github.com/nlink-jp/mcp-tactics.git

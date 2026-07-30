@@ -2,51 +2,35 @@
 
 ## Project summary
 
-Claude Code Skills for nlink-jp development process automation.
-Each subdirectory contains a skill (SKILL.md) that can be invoked via
-`/skill-name` in Claude Code.
+Umbrella repository for nlink-jp's Claude Code Skills. Each skill lives in
+its own repository (ADR-004) and is included here as a submodule. This repo
+is a pure catalog: submodules + READMEs, no Makefile, no tests.
+
+## Submodules
+
+| Path | Repository | Skill |
+|------|-----------|-------|
+| `rfp/` | github.com/nlink-jp/rfp | `/rfp` — RFP facilitation for new projects |
+| `mcp-tactics/` | github.com/nlink-jp/mcp-tactics | `/mcp-tactics` — MCP server selection tactics (ADR-003) |
 
 ## Key commands
 
 | Command | Purpose |
 |---------|---------|
-| `make install` | Copy all skills to `~/.claude/skills/` |
-| `make install DEST=<path>` | Copy to a custom directory |
-| `make uninstall` | Remove installed skills |
-| `make list` | List available skills |
-| `make check` (= `make test`) | Structural validation of every skill |
-
-## Directory structure
-
-```
-skills-series/
-├── rfp/               Interactive RFP facilitation
-│   └── SKILL.md       Skill definition (frontmatter + instructions)
-├── mcp-tactics/       Which MCP server to use when (ADR-003)
-│   ├── SKILL.md       Router — decision tables, chains, escalation doctrine
-│   └── references/    Per-domain playbooks, read on demand
-├── tests/
-│   └── validate-skills.sh
-├── Makefile
-├── README.md
-├── README.ja.md
-├── CHANGELOG.md
-├── CLAUDE.md
-├── AGENTS.md
-└── LICENSE
-```
+| `git clone --recurse-submodules` | Clone with all skills |
+| `git submodule update --init` | Populate submodules in an existing clone |
+| (inside a skill repo) `make install` / `make check` / `make package` | Per-skill work happens there |
 
 ## Gotchas
 
-- Skills are not code — no build, no `dist/`, and no behaviour tests. Structure
-  *is* tested: `make check` verifies frontmatter and relative links, which is
-  what actually rots in a multi-file skill.
-- After editing a SKILL.md, run `make install` to update the deployed copy.
-- Skill names must be lowercase with hyphens (directory name = slash command name).
-- `mcp-tactics` records **selection and ordering only**. Parameters, return
-  shapes, and error codes belong to each MCP server's own `get_usage` tool —
-  duplicating them here guarantees drift (ADR-003). When a server gains or loses
-  a *tool*, update the index; when a tool's arguments change, do nothing.
+- Development happens in the skill repositories, not here. After releasing a
+  skill, bump its submodule pointer in this repo (`git add <skill>` →
+  `chore: bump <skill> to vX.Y.Z`).
+- Submodules use HTTPS URLs (SSH fails on machines without auth).
+- When working inside a submodule, make sure it is on `main`, not a detached
+  HEAD, before committing.
+- This repo was a monorepo through v0.3.1; that history (and the pre-split
+  skill content) remains in this repository's git log.
 
 ## Module path
 

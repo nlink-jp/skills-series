@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-07-31
+
+### Changed
+
+- Converted to an umbrella repository (ADR-004): each skill now lives in its
+  own repository — [rfp](https://github.com/nlink-jp/rfp) and
+  [mcp-tactics](https://github.com/nlink-jp/mcp-tactics) — included here as
+  submodules, each released independently as a GitHub Release zip whose root
+  is the skill folder (installable into `~/.claude/skills/` or uploadable to
+  claude.ai). Skill content is unchanged from v0.3.1.
+
+### Removed
+
+- In-tree skill directories, `tests/validate-skills.sh`, and the `Makefile`
+  (`make install` / `make check` moved into each skill repository).
+
 ## [0.3.1] - 2026-07-31
 
 ### Added

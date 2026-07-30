@@ -9,35 +9,19 @@
 
 ## This series
 
-Claude Code Skills for nlink-jp development process automation.
-
-Skills are Markdown-based instructions (SKILL.md) that extend Claude Code
-with organization-specific workflows.
+Umbrella repository for Claude Code Skills — one repository per skill,
+included as submodules (ADR-004). Skill development, validation, packaging,
+and releases all happen in the skill repositories; this repo only tracks
+submodule pointers and the series catalog.
 
 ```
 skills-series/
-├── rfp/               RFP facilitation skill
-│   └── SKILL.md
-├── mcp-tactics/       MCP server selection tactics (ADR-003)
-│   ├── SKILL.md       Router: decision tables + chains
-│   └── references/    Per-domain playbooks
-├── tests/             validate-skills.sh (structural checks)
-├── Makefile           install / uninstall / list / check
-├── README.md
-├── README.ja.md
-├── CHANGELOG.md
-├── CLAUDE.md
-├── AGENTS.md
-└── LICENSE
+├── rfp/          github.com/nlink-jp/rfp          (/rfp — RFP facilitation)
+└── mcp-tactics/  github.com/nlink-jp/mcp-tactics  (/mcp-tactics — MCP selection tactics)
 ```
 
-## Build conventions
-
-- No compilation step — skills are Markdown files.
-- `make check` (alias `make test`) validates skill structure — run it before committing.
-- `make install` copies skills to `~/.claude/skills/` (or custom `DEST`).
-- `make uninstall` removes installed skills.
-- `dist/` convention does not apply to this series.
+After releasing a skill, bump its submodule pointer here and update the org
+profile README if the catalog entry changed.
 
 ## Communication Language
 

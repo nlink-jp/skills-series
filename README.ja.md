@@ -1,62 +1,45 @@
 # skills-series
 
-[nlink-jp](https://github.com/nlink-jp) の開発プロセス自動化のための Claude Code Skills。
+[nlink-jp](https://github.com/nlink-jp) の開発プロセス自動化のための
+Claude Code Skills。本リポジトリはアンブレラで、各スキルは独立した
+リポジトリを submodule として収録しています
+（[ADR-004](https://github.com/nlink-jp/.github/blob/main/adr/004-skills-series-umbrella.md)）。
 
-## 機能
-
-- **rfp** — 新規プロジェクト計画のためのインタラクティブRFPファシリテーション（[CONVENTIONS.md](https://github.com/nlink-jp/.github/blob/main/CONVENTIONS.md) Phase 1 準拠）
-- **mcp-tactics** — 自組織の MCP サーバをどの状況でどの順に使うかの戦術書（[ADR-003](https://github.com/nlink-jp/.github/blob/main/adr/003-mcp-tactics-skill.md)）
-
-## インストール
-
-```bash
-git clone https://github.com/nlink-jp/skills-series.git
-cd skills-series
-make install
-```
-
-すべてのSkillが `~/.claude/skills/` にコピーされます。特定プロジェクトにインストールする場合:
-
-```bash
-make install DEST=/path/to/project/.claude/skills
-```
-
-## アンインストール
-
-```bash
-make uninstall
-```
-
-## 使い方
-
-インストール後、Claude Code で `/` プレフィックスを付けて呼び出します:
-
-```
-/rfp
-/rfp my-new-tool
-```
-
-`mcp-tactics` は参照型Skillです。自組織のMCPサーバが関わるタスクではClaudeが自動で読み込み、`/mcp-tactics` で明示的に開くこともできます。
-
-## 収録Skills
+## Skills
 
 | Skill | コマンド | 説明 |
 |-------|---------|------|
-| rfp | `/rfp [tool-name]` | 新規nlink-jpプロジェクトのRFPプロセスをファシリテーション。Q&Aで要件を収集し、CONVENTIONS.md計画フェーズに照らして検証、構造化されたRFP文書を出力。 |
-| mcp-tactics | `/mcp-tactics` | 自組織のMCPサーバ17本＋proxy 2本の横断戦術書。入力アーティファクトからの経路決定表、サーバ横断チェーン、quota と前提条件、そして「オフライン→第三者照会→対象接触」のエスカレーション原則。**選択と順序のみ**を記述し、パラメータは各サーバの `get_usage` を正とする。 |
+| [rfp](https://github.com/nlink-jp/rfp) | `/rfp [tool-name]` | 新規 nlink-jp プロジェクトの RFP プロセスをファシリテート。Q&A で要件を収集し、CONVENTIONS.md の企画フェーズに対して検証し、構造化された RFP ドキュメントを出力する。 |
+| [mcp-tactics](https://github.com/nlink-jp/mcp-tactics) | `/mcp-tactics` | 組織の MCP サーバとプロキシを横断する戦術書 — 入力アーティファクト→ルートの意思決定テーブル、サーバ横断チェーン、「オフライン → サードパーティ照会 → 対象接触」のエスカレーション・ドクトリン（ADR-003）。 |
 
-## 検証
+## インストール
+
+各スキルは「zip ルート = スキルフォルダ」の zip をリリースしています。
+各スキルの Releases ページからダウンロードし、次のいずれかで導入します:
 
 ```bash
-make check
+unzip <skill>-vX.Y.Z.zip -d ~/.claude/skills/
 ```
 
-各Skillのfrontmatter（存在すること、`name` がスラッシュコマンドとなるディレクトリ名と一致すること）と、Skill内の相対リンクがすべて解決することを検査します。`SKILL.md` や参照ファイルを編集したら実行してください。
+または claude.ai / Claude Desktop の **Settings → Skills** に zip を
+そのままアップロードします。
+
+ソースからインストールする場合は、スキルのリポジトリ（またはこの
+アンブレラを `--recurse-submodules` 付きで）clone し、スキルリポジトリ内で
+`make install` を実行してください。
+
+## Conventions
+
+すべてのスキルは
+[CONVENTIONS.md](https://github.com/nlink-jp/.github/blob/main/CONVENTIONS.md)
+の共有ルールに従います: 1 スキル 1 リポジトリ、スキル本体は
+`<skill-name>/` サブディレクトリ、`make check` による構造検証、
+GitHub Release zip による配布。
 
 ## ドキュメント
 
 - [English](README.md)
-- [Japanese](README.ja.md)
+- [日本語](README.ja.md)
 
 ## ライセンス
 
