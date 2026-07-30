@@ -1,11 +1,11 @@
 ---
 name: mcp-tactics
-description: Choose the right nlink-jp MCP server for the situation, and call them in the right order. Use when investigating an IP address, domain, URL, MAC address / BSSID, or a pcap capture; when analysing a CSV/JSON/JSONL/Parquet file or writing throwaway Python for data; when producing narrated Japanese audio, a presentation video, or a locally generated image; or when a second opinion from another model would help. Also for 調査・トリアージ・不審IP・不審URL・不審メール・パケット解析・データ分析・ナレーション音声・解説動画・画像生成・セカンドオピニオン. Read this before reaching for any in-house MCP server, and especially before any lookup that could touch the party under investigation.
+description: Choose the right nlink-jp MCP server for the situation, and call them in the right order. Use when investigating an IP address, domain, URL, file hash (MD5/SHA1/SHA256), MAC address / BSSID, or a pcap capture; when analysing a CSV/JSON/JSONL/Parquet file or writing throwaway Python for data; when producing narrated Japanese audio, a presentation video, or a locally generated image; or when a second opinion from another model would help. Also for 調査・トリアージ・不審IP・不審URL・不審メール・ハッシュ照合・マルウェア判定・パケット解析・データ分析・ナレーション音声・解説動画・画像生成・セカンドオピニオン. Read this before reaching for any in-house MCP server, and especially before any lookup that could touch the party under investigation.
 ---
 
 # MCP Tactics — nlink-jp MCP servers
 
-15 MCP servers and 2 proxies, organized by *when to reach for them*.
+17 MCP servers and 2 proxies, organized by *when to reach for them*.
 
 ## The one contract
 
@@ -25,7 +25,7 @@ tier 1 before tier 2. Enter tier 3 only as a deliberate, stated decision.
 | Tier | Who observes | Servers |
 |---|---|---|
 | **1 — offline** | Nobody. Answered from a local cache | `asn-lookup`, `mac-lookup`, `tor-exit-lookup`, `icloud-relay-lookup` |
-| **2 — third party** | A registry, resolver, or reputation service | `whois-lookup`, `doh-lookup`, `abuse-lookup`, `urlscan-lookup` (`search`) |
+| **2 — third party** | A registry, resolver, or reputation service | `whois-lookup`, `doh-lookup`, `rdns-lookup`, `abuse-lookup`, `malware-lookup`, `urlscan-lookup` (`search`) |
 | **3 — target contact** | **The party under investigation can notice** | `urlscan-lookup` (`scan_url`) |
 
 Two corollaries that are easy to get wrong:
@@ -49,7 +49,9 @@ Investigation layer:
 | `icloud-relay-lookup` | Is this IP an iCloud Private Relay egress? | 1 | none | `cache_status` → `check_ip` |
 | `whois-lookup` | Registration data of a domain / IP / ASN | 2 | none | `lookup` |
 | `doh-lookup` | A domain's current DNS records, over DoH | 2 | none | `lookup` |
+| `rdns-lookup` | IP → every indexed domain; domain → subdomains, reverse CNAMEs (ip.thc.org index — not PTR) | 2 | none | `lookup_rdns` / `lookup_subdomains` / `lookup_cnames` |
 | `abuse-lookup` | IP reputation (AbuseIPDB) | 2 | API key; **1000 checks/day** | `check_ip` → `get_reports` |
+| `malware-lookup` | Is this file hash a known-good file or known malware? | 2 | abuse.ch Auth-Key optional (family/tag enrichment) | `check_hash` → *(rarely)* `get_sample_info` |
 | `urlscan-lookup` | What a suspicious URL is and does | 2 / **3** | API key (free plan, low quota) | `search` → *(deliberate)* `scan_url` → `get_result` |
 | `pcap-analyzer` | What is inside a pcap / pcapng capture | — | Podman | `create_workspace` → `protocol_hierarchy` |
 
@@ -75,11 +77,12 @@ Proxies — infrastructure, not tools you pick per task:
 
 | You are handed | Do this |
 |---|---|
-| **An IP address** | `asn-lookup` (AS, country) → `tor-exit-lookup` + `icloud-relay-lookup` (is it an anonymizing egress at all?) → `whois-lookup` (allocation) → `abuse-lookup` **last**, because it is the only metered one |
-| **A domain** | `whois-lookup` (age, registrar, abuse contact) → `doh-lookup` (where it resolves now) → `asn-lookup` on the resolved IPs. A days-old registration plus fresh NS is the signal, not any single field |
+| **An IP address** | `asn-lookup` (AS, country) → `tor-exit-lookup` + `icloud-relay-lookup` (is it an anonymizing egress at all?) → `rdns-lookup` (what else is hosted there — index read, no packet to the target) → `whois-lookup` (allocation) → `abuse-lookup` **last**, because it is the only metered one |
+| **A domain** | `whois-lookup` (age, registrar, abuse contact) → `doh-lookup` (where it resolves now) → `rdns-lookup` (`lookup_subdomains` / `lookup_cnames` for the surrounding names) → `asn-lookup` on the resolved IPs. A days-old registration plus fresh NS is the signal, not any single field |
+| **A file hash** | `malware-lookup` `check_hash` (1–100 per call, MD5/SHA1/SHA256 auto-detected). Read the verdict as four-way: `conflicting` means known file **and** flagged — scrutinize, never auto-resolve (even EICAR is conflicting); `unknown` can still be registered in MalwareBazaar only, since enrichment runs on an MHR hit. `get_sample_info` only when the compact evidence is not enough. The VT link in each result is for a human browser, never an API to call |
 | **A URL** | `urlscan-lookup` `search` first. Only if the passive record is empty *and* an active look is justified, `scan_url` (private) → `get_result` → `get_screenshot`. Feed observed IPs/domains back into the two rows above |
 | **A MAC address / BSSID** | `mac-lookup`. Read `vendor_lookup_applicable` **before** `vendor`: when false, the address is broadcast, multicast, or locally administered (a randomized MAC or virtual NIC) and no manufacturer exists to find — that is the answer, not a failed lookup |
-| **A pcap / pcapng** | `pcap-analyzer`: `create_workspace` → `protocol_hierarchy` → `list_conversations` → `query_packets` → `follow_stream` / `extract_objects`. Then send external IPs through the IP row |
+| **A pcap / pcapng** | `pcap-analyzer`: `create_workspace` → `protocol_hierarchy` → `list_conversations` → `query_packets` → `follow_stream` / `extract_objects`. Then send external IPs through the IP row, and hash extracted objects (`shasum -a 256`) for the file-hash row |
 | **A CSV / JSON / JSONL / Parquet** | `data-toolbox`: `load_data` → `query_data`. Reach for `execute_code` only when SQL genuinely cannot express it |
 | **A manuscript or script to voice** | `voice-studio` (Japanese only). For a fuller workflow, the `radio-drama` / `multi-actor-narration` skills already drive it |
 | **Slides + narration to combine** | `voice-studio` per page → `video-studio` `master`. Page duration comes from its audio, so A/V sync is automatic |
@@ -103,6 +106,7 @@ URL ─▶ urlscan search (passive)
 pcap ─▶ pcap-analyzer (conversations, streams, extracted objects)
           └─▶ external IPs ─▶ the IP row above
           └─▶ extracted URLs / hosts ─▶ the URL and domain rows above
+          └─▶ extracted objects ─▶ shasum -a 256 ─▶ malware-lookup check_hash
 ```
 
 **Narrated deliverable** — three servers, one pipeline:
@@ -138,8 +142,9 @@ for its servers, and still defers parameters to `get_usage`.
 
 | File | Covers |
 |---|---|
-| [references/network-intel.md](references/network-intel.md) | `asn-lookup`, `whois-lookup`, `doh-lookup`, `abuse-lookup`, `tor-exit-lookup`, `icloud-relay-lookup`, `mac-lookup` |
+| [references/network-intel.md](references/network-intel.md) | `asn-lookup`, `whois-lookup`, `doh-lookup`, `rdns-lookup`, `abuse-lookup`, `tor-exit-lookup`, `icloud-relay-lookup`, `mac-lookup` |
 | [references/url-triage.md](references/url-triage.md) | `urlscan-lookup` |
+| [references/hash-intel.md](references/hash-intel.md) | `malware-lookup` |
 | [references/pcap.md](references/pcap.md) | `pcap-analyzer` |
 | [references/data-analysis.md](references/data-analysis.md) | `data-toolbox` |
 | [references/media.md](references/media.md) | `voice-studio`, `video-studio`, `image-forge` |

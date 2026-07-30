@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.1] - 2026-07-31
+
+### Added
+
+- `mcp-tactics`: cover the two servers released since 0.3.0 (15 → 17).
+  `malware-lookup` gets a file-hash decision row, a tier-2 index entry, a
+  place in the pcap chain (extracted objects → sha256 → check_hash), and a
+  new `references/hash-intel.md` playbook — four-way verdict semantics,
+  the conflicting-is-a-finding doctrine, the enrichment-on-hit trade-off,
+  and the VT-link-is-for-humans rule. `rdns-lookup` joins the tier-2 list,
+  the IP/domain decision rows, and `references/network-intel.md` (index
+  read ≠ PTR, truncation discipline, courtesy limits).
+
 ## [0.3.0] - 2026-07-26
 
 ### Added

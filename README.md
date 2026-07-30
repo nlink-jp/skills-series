@@ -44,7 +44,7 @@ involves one of our MCP servers, and `/mcp-tactics` shows it on demand.
 | Skill | Command | Description |
 |-------|---------|-------------|
 | rfp | `/rfp [tool-name]` | Facilitates RFP process for new nlink-jp projects. Collects requirements through Q&A, validates against CONVENTIONS.md planning phase, and outputs a structured RFP document. |
-| mcp-tactics | `/mcp-tactics` | Cross-cutting tactics book for the organization's 15 MCP servers and 2 proxies — decision tables from input artifact to route, cross-server chains, quota and prerequisite facts, and an offline-before-third-party-before-target-contact escalation doctrine. Selection and ordering only; each server's `get_usage` remains authoritative for parameters. |
+| mcp-tactics | `/mcp-tactics` | Cross-cutting tactics book for the organization's 17 MCP servers and 2 proxies — decision tables from input artifact to route, cross-server chains, quota and prerequisite facts, and an offline-before-third-party-before-target-contact escalation doctrine. Selection and ordering only; each server's `get_usage` remains authoritative for parameters. |
 
 ## Validation
 

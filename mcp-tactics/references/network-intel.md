@@ -1,6 +1,6 @@
 # Network intel — IP, domain, DNS, MAC
 
-Seven servers answering "what is this address / name?". Four are offline, three
+Eight servers answering "what is this address / name?". Four are offline, four
 query a third party. Call each server's `get_usage` before first use; this file
 covers selection, ordering, and pitfalls only.
 
@@ -14,6 +14,7 @@ covers selection, ordering, and pitfalls only.
 | Who manufactured this NIC / access point? | `mac-lookup` | offline |
 | Who registered this domain / IP range / ASN, and when? | `whois-lookup` | third party |
 | Where does this domain resolve right now? | `doh-lookup` | third party |
+| What else is hosted on this IP? What subdomains does this domain have, and who CNAMEs to it? | `rdns-lookup` | third party |
 | Has this IP been reported for abuse? | `abuse-lookup` | third party, **metered** |
 
 ## Ordering for an unknown IP
@@ -25,13 +26,19 @@ covers selection, ordering, and pitfalls only.
    cheap, and both change the meaning of everything downstream. An anonymizing
    egress means the IP identifies a *network*, not an actor; abuse reports
    against it say little about the specific traffic you are looking at.
-3. **`whois-lookup`** — the allocation record: assignee, country, abuse contact.
+3. **`rdns-lookup`** — `lookup_rdns` for every domain the free ip.thc.org
+   index associates with the address. This reads a third-party index, so no
+   packet reaches the target — and it is *not* PTR: it aggregates PTR names,
+   A-record matches, and CT-log names, which is why `1.1.1.1` yields tens of
+   thousands of records where a PTR yields one. Read `truncated` and
+   `matching_records` before calling a set complete.
+4. **`whois-lookup`** — the allocation record: assignee, country, abuse contact.
    This is where the address to report to comes from.
-4. **`abuse-lookup`** — last, because it is the only metered step. `check_ip`
+5. **`abuse-lookup`** — last, because it is the only metered step. `check_ip`
    for the score and category summary; `get_reports` only when the individual
    reports matter (large pages are written to a file in the workspace you pass).
 
-Skipping straight to step 4 is the common mistake: the score is meaningless
+Skipping straight to step 5 is the common mistake: the score is meaningless
 without knowing whether step 2 already explained the address.
 
 ## Ordering for an unknown domain
@@ -41,7 +48,11 @@ without knowing whether step 2 already explained the address.
 2. **`doh-lookup`** — the current records over DoH. Every result states which
    resolver and endpoint answered and the DNSSEC AD flag; keep that in the
    writeup, because "Cloudflare said so at time T" is the actual finding.
-3. **`asn-lookup`** on each resolved IP — where it is actually hosted, offline.
+3. **`rdns-lookup`** — `lookup_subdomains` for the domain's surrounding
+   names, `lookup_cnames` for who points at it. Both read the index only;
+   the freshness signal is each record's last-seen date, not "resolves now"
+   (that is `doh-lookup`'s job).
+4. **`asn-lookup`** on each resolved IP — where it is actually hosted, offline.
 
 `whois-lookup` is RDAP-first with a port-43 fallback for RDAP-less ccTLDs
 (`.jp` among them), so a JP domain works without special handling. Punycode is
@@ -78,7 +89,10 @@ confident false negatives — when the answer will drive a decision and the cach
 is old, refresh it.
 
 `abuse-lookup` and `urlscan-lookup` are the only servers here that need a
-credential to *query*. `whois-lookup` and `doh-lookup` need none.
+credential to *query*. `whois-lookup`, `doh-lookup`, and `rdns-lookup` need
+none — but `rdns-lookup` rides a free index that asks not to be abused, so its
+default 100-record limit, `--all` ceiling, and local cache are courtesy, not
+obstacles.
 
 ## Quota discipline
 
