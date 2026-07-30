@@ -36,11 +36,7 @@ one repository per skill, skill content in a `<skill-name>/` subdirectory,
 structural validation via `make check`, and GitHub Release zips as the
 distribution channel.
 
-## Documentation
-
-- [English](README.md)
-- [Japanese](README.ja.md)
-
-## License
-
-[MIT](LICENSE)
+Each skill repository carries its own bilingual READMEs, CHANGELOG, and
+MIT license; this umbrella only tracks submodule pointers and the catalog
+above. The pre-split monorepo history (through v0.3.1) remains in this
+repository's git log and Releases.

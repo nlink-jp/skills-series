@@ -4,8 +4,10 @@
 
 ## Non-negotiable rules
 
-- **Docs in sync** — update `README.md` and `README.ja.md` in the same commit as behaviour changes.
 - **Small, typed commits** — `feat:`, `fix:`, `docs:`, `chore:`
+- **Umbrella files are README.md / CLAUDE.md / AGENTS.md only** — bilingual
+  READMEs, CHANGELOG, and LICENSE live in each skill repository, matching the
+  other series umbrellas.
 
 ## This series
 
