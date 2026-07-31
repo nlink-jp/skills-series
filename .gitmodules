@@ -4,3 +4,6 @@
 [submodule "mcp-tactics"]
 	path = mcp-tactics
 	url = https://github.com/nlink-jp/mcp-tactics.git
+[submodule "meeting-notes"]
+	path = meeting-notes
+	url = https://github.com/nlink-jp/meeting-notes.git
