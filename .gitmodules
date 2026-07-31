@@ -7,3 +7,6 @@
 [submodule "meeting-notes"]
 	path = meeting-notes
 	url = https://github.com/nlink-jp/meeting-notes.git
+[submodule "service-research"]
+	path = service-research
+	url = https://github.com/nlink-jp/service-research.git

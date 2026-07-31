@@ -12,6 +12,7 @@ own repository and is included here as a submodule
 | [rfp](https://github.com/nlink-jp/rfp) | `/rfp [tool-name]` | Facilitates the RFP process for new nlink-jp projects. Collects requirements through Q&A, validates against CONVENTIONS.md planning phase, and outputs a structured RFP document. |
 | [mcp-tactics](https://github.com/nlink-jp/mcp-tactics) | `/mcp-tactics` | Cross-cutting tactics book for the organization's MCP servers and proxies — decision tables from input artifact to route, cross-server chains, and an offline-before-third-party-before-target-contact escalation doctrine (ADR-003). |
 | [meeting-notes](https://github.com/nlink-jp/meeting-notes) | `/meeting-notes <transcript>` | Structures a meeting transcript (TXT/VTT/SRT) into a validated 3-layer JSON record — verbatim utterances, decisions with rationale, summaries — and compiles Markdown or self-contained HTML minutes. Successor to the meeting-note CLI. |
+| [service-research](https://github.com/nlink-jp/service-research) | `/service-research <name>` | Researches a product or service — overview, ToS, privacy, data security, AI-agent behavior — by reading the primary sources on the web, and emits a schema-validated JSON report with a three-tier risk rating plus compiled Markdown (ADR-007). Successor to the product-research CLI. |
 
 ## Installation
 
