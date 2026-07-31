@@ -13,3 +13,6 @@
 [submodule "incident-research"]
 	path = incident-research
 	url = https://github.com/nlink-jp/incident-research.git
+[submodule "incident-review"]
+	path = incident-review
+	url = https://github.com/nlink-jp/incident-review.git
