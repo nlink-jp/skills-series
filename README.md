@@ -1,7 +1,8 @@
 # skills-series
 
-Claude Code Skills for [nlink-jp](https://github.com/nlink-jp) development
-process automation. This is an umbrella repository: each skill lives in its
+Claude Code Skills packaging [nlink-jp](https://github.com/nlink-jp)
+workflows — development process, research, meeting minutes, and security
+analysis. This is an umbrella repository: each skill lives in its
 own repository and is included here as a submodule
 ([ADR-004](https://github.com/nlink-jp/.github/blob/main/adr/004-skills-series-umbrella.md)).
 
