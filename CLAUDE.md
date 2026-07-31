@@ -23,7 +23,8 @@ skills-series/
 ├── meeting-notes/     github.com/nlink-jp/meeting-notes     (/meeting-notes — transcript → structured minutes)
 ├── service-research/  github.com/nlink-jp/service-research  (/service-research — product/service risk research)
 ├── incident-research/ github.com/nlink-jp/incident-research (/incident-research — security incident deep-dive research)
-└── incident-review/   github.com/nlink-jp/incident-review   (/incident-review — own IR record retrospective analysis)
+├── incident-review/   github.com/nlink-jp/incident-review   (/incident-review — own IR record retrospective analysis)
+└── compliance-review/ github.com/nlink-jp/compliance-review (/compliance-review — two-phase regulation-compliance review)
 ```
 
 After releasing a skill, bump its submodule pointer here and update the org
