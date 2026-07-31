@@ -21,7 +21,8 @@ skills-series/
 ├── rfp/               github.com/nlink-jp/rfp               (/rfp — RFP facilitation)
 ├── mcp-tactics/       github.com/nlink-jp/mcp-tactics       (/mcp-tactics — MCP selection tactics)
 ├── meeting-notes/     github.com/nlink-jp/meeting-notes     (/meeting-notes — transcript → structured minutes)
-└── service-research/  github.com/nlink-jp/service-research  (/service-research — product/service risk research)
+├── service-research/  github.com/nlink-jp/service-research  (/service-research — product/service risk research)
+└── incident-research/ github.com/nlink-jp/incident-research (/incident-research — security incident deep-dive research)
 ```
 
 After releasing a skill, bump its submodule pointer here and update the org

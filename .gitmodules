@@ -10,3 +10,6 @@
 [submodule "service-research"]
 	path = service-research
 	url = https://github.com/nlink-jp/service-research.git
+[submodule "incident-research"]
+	path = incident-research
+	url = https://github.com/nlink-jp/incident-research.git
