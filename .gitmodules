@@ -19,3 +19,6 @@
 [submodule "compliance-review"]
 	path = compliance-review
 	url = https://github.com/nlink-jp/compliance-review.git
+[submodule "news-digest"]
+	path = news-digest
+	url = https://github.com/nlink-jp/news-digest.git
