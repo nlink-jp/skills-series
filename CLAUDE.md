@@ -21,6 +21,7 @@ skills-series/
 ├── rfp/               github.com/nlink-jp/rfp               (/rfp — RFP facilitation)
 ├── mcp-tactics/       github.com/nlink-jp/mcp-tactics       (/mcp-tactics — MCP selection tactics)
 ├── meeting-notes/     github.com/nlink-jp/meeting-notes     (/meeting-notes — transcript → structured minutes)
+├── news-digest/       github.com/nlink-jp/news-digest       (/news-digest — feed collection → evaluated digest)
 ├── service-research/  github.com/nlink-jp/service-research  (/service-research — product/service risk research)
 ├── incident-research/ github.com/nlink-jp/incident-research (/incident-research — security incident deep-dive research)
 ├── incident-review/   github.com/nlink-jp/incident-review   (/incident-review — own IR record retrospective analysis)
