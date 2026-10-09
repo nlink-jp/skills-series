@@ -2,7 +2,7 @@
 
 Claude Code Skills packaging [nlink-jp](https://github.com/nlink-jp)
 workflows — development process, research, meeting minutes, security
-analysis, and news collection. This is an umbrella repository: each skill lives in its
+analysis, news collection, and weather forecasts. This is an umbrella repository: each skill lives in its
 own repository and is included here as a submodule
 ([ADR-004](https://github.com/nlink-jp/.github/blob/main/adr/004-skills-series-umbrella.md)).
 
@@ -18,6 +18,7 @@ own repository and is included here as a submodule
 | [incident-review](https://github.com/nlink-jp/incident-review) | `/incident-review <record>` | Retrospectively analyzes your own organization's IR communication record — Slack exports, plain-text logs, connector-read channels, or any transcript — behind a defang/nonce-isolation preprocessing gate, and emits a schema-validated JSON report (summary, activity, roles, process review) plus reusable tactic knowledge documents ([ADR-0001](https://github.com/nlink-jp/incident-review/blob/main/docs/en/adr/0001-retrospective-analysis.md)). Successor to the ai-ir / ai-ir2 CLIs. |
 | [compliance-review](https://github.com/nlink-jp/compliance-review) | `/compliance-review compile \| review` | Two-phase security review against your own regulations — `compile` decomposes regulation documents into a versioned domain-expert set (full clause text per expert, no RAG, deterministic coverage check), `review` evaluates an application behind a sha256 drift gate and a nonce-isolation preprocessing gate with parallel independent experts, deterministic severity rules, and a two-pass Q&A ([ADR-0001](https://github.com/nlink-jp/compliance-review/blob/main/docs/en/adr/0001-two-phase-review.md)). Successor to the virtual-reviewer PoC. |
 | [news-digest](https://github.com/nlink-jp/news-digest) | `/news-digest --repo <corpus>` | Collects your own RSS/Atom/JSON feeds and digests only what is worth reading — the agent scores novelty, significance and relevance behind a nonce-isolation gate and never writes a priority, which a swappable profile's decision table derives. Continuing stories are tracked so a rehash with no new facts is named as such. The engine is public and holds no data; the feed list, relevance profile and article corpus live in a separate private corpus repository joined by a versioned contract ([ADR-0001](https://github.com/nlink-jp/news-digest/blob/main/docs/en/adr/0001-public-engine-private-corpus.md)). First-time setup — corpus creation through scheduled operation — is a runbook the agent executes with the user. |
+| [weather-forecast](https://github.com/nlink-jp/weather-forecast) | `/weather-forecast <place>` | Answers weather-forecast questions for places in Japan from the Japan Meteorological Agency's latest forecast — today to the day after tomorrow, the 7-day forecast and the written overview. A bundled stdlib script resolves the place, reads JMA's JSON by its documented rules and normalizes it; the model only words the answer, citing area, release time and source ([ADR-0001](https://github.com/nlink-jp/weather-forecast/blob/main/docs/en/adr/0001-jma-forecast-skill.md)). Warnings and advisories are out of scope. |
 
 ## Installation
 

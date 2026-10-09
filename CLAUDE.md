@@ -25,7 +25,8 @@ skills-series/
 ├── service-research/  github.com/nlink-jp/service-research  (/service-research — product/service risk research)
 ├── incident-research/ github.com/nlink-jp/incident-research (/incident-research — security incident deep-dive research)
 ├── incident-review/   github.com/nlink-jp/incident-review   (/incident-review — own IR record retrospective analysis)
-└── compliance-review/ github.com/nlink-jp/compliance-review (/compliance-review — two-phase regulation-compliance review)
+├── compliance-review/ github.com/nlink-jp/compliance-review (/compliance-review — two-phase regulation-compliance review)
+└── weather-forecast/  github.com/nlink-jp/weather-forecast  (/weather-forecast — JMA forecast for a place in Japan)
 ```
 
 After releasing a skill, bump its submodule pointer here and update the org

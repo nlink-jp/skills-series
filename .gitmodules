@@ -22,3 +22,6 @@
 [submodule "news-digest"]
 	path = news-digest
 	url = https://github.com/nlink-jp/news-digest.git
+[submodule "weather-forecast"]
+	path = weather-forecast
+	url = https://github.com/nlink-jp/weather-forecast.git
