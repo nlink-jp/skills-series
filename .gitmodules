@@ -25,3 +25,6 @@
 [submodule "weather-forecast"]
 	path = weather-forecast
 	url = https://github.com/nlink-jp/weather-forecast.git
+[submodule "code-audit"]
+	path = code-audit
+	url = https://github.com/nlink-jp/code-audit.git
